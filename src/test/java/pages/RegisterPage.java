@@ -3,7 +3,13 @@ package pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 public class RegisterPage {
 
@@ -36,13 +42,14 @@ public class RegisterPage {
         return driver.findElement(By.cssSelector("#repeatPasswordControl"));
     }
 
-    public Select selectSecurityField() {
-        WebElement selectElement = driver.findElement(By.name("securityQuestion"));
-        return new Select(selectElement);
-    }
 
     public void selectSecurityQuestion() {
-        selectSecurityField().selectByVisibleText("Mother's maiden name?");
+
+        final Actions action = new Actions(driver);
+        final WebElement dropdown = driver.findElement(By.name("securityQuestion"));
+        action.pause(Duration.ofSeconds(2)).click(dropdown).perform();
+        final WebElement selectOption = driver.findElement(By.xpath("//mat-option/span[contains(text(), \"Maternal grandmother's first name?\")]"));
+        action.pause(Duration.ofSeconds(2)).click(selectOption).perform();
     }
 
     public WebElement securityAnswerField() {
@@ -54,7 +61,6 @@ public class RegisterPage {
     }
 
     public void login(String email, String password, String securityAnswer) {
-
         emailField().sendKeys(email);
         passwordField().sendKeys(password);
         repeatPasswordField().sendKeys(password);
@@ -63,8 +69,10 @@ public class RegisterPage {
         registerBtn().click();
     }
 
-    public String getSucessMessage() {
-        return driver.findElement(By.cssSelector("simple-snack-bar > span")).getText();
+    public String getSuccessMessage() {
+        WebElement successMessage = new WebDriverWait(driver, Duration.ofSeconds(5))
+                .until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("simple-snack-bar > span")));
+        return successMessage.getText();
     }
 
 }

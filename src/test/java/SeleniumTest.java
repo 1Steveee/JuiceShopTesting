@@ -1,4 +1,3 @@
-import org.openqa.selenium.WebDriver;
 import org.testng.annotations.Test;
 import pages.RegisterPage;
 
@@ -11,13 +10,9 @@ public class SeleniumTest extends BaseTest{
         RegisterPage registerPage = new RegisterPage(driverManager.getDriver());
         registerPage.clickDismissBtn();
         registerPage
-                .login("manuel123@gmail.com","simpletest123","JaneDoe");
-
-
+                .login("manuel14444213@gmail.com","simpletest123","JaneDoe");
         String successMessage = "Registration completed successfully. You can now log in.";
-
-        assertEquals(successMessage, registerPage.getSucessMessage());
-
+        assertEquals(successMessage, registerPage.getSuccessMessage());
     }
 
 }
