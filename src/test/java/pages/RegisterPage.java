@@ -31,15 +31,15 @@ public class RegisterPage {
     }
 
     public WebElement emailField() {
-        return driver.findElement(By.cssSelector("#emailControl"));
+        return driver.findElement(By.id("emailControl"));
     }
 
     public WebElement passwordField() {
-        return driver.findElement(By.cssSelector("#passwordControl"));
+        return driver.findElement(By.id("passwordControl"));
     }
 
     public WebElement repeatPasswordField() {
-        return driver.findElement(By.cssSelector("#repeatPasswordControl"));
+        return driver.findElement(By.id("repeatPasswordControl"));
     }
 
 
@@ -53,11 +53,11 @@ public class RegisterPage {
     }
 
     public WebElement securityAnswerField() {
-        return driver.findElement(By.cssSelector("#securityAnswerControl"));
+        return driver.findElement(By.id("securityAnswerControl"));
     }
 
     public WebElement registerBtn() {
-        return driver.findElement(By.cssSelector("#registerButton"));
+        return driver.findElement(By.id("registerButton"));
     }
 
     public void login(String email, String password, String securityAnswer) {
