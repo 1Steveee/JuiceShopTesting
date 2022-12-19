@@ -17,7 +17,6 @@ public class DriverManager {
         return driver;
     }
 
-
     /*
     This method is responsible for creating a specific browser instance depending on the type of browser passed to it
     */

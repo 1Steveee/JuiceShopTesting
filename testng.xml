@@ -6,7 +6,7 @@
         <classes>
             <class name="SeleniumTest">
                 <methods>
-                    <include name="testRegisterPageChrome"/>
+                    <include name="testMainPageLoginChrome"/>
                 </methods>
             </class>
         </classes>

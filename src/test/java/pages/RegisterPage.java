@@ -22,7 +22,6 @@ public class RegisterPage {
         this.driver = driver;
     }
 
-
     public WebElement dismissBtn() {
         return driver.findElement(By.cssSelector("button[aria-label='Close Welcome Banner']"));
     }
@@ -41,7 +40,6 @@ public class RegisterPage {
     public WebElement repeatPasswordField() {
         return driver.findElement(By.id("repeatPasswordControl"));
     }
-
 
     public void selectSecurityQuestion() {
 

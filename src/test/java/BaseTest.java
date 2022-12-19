@@ -13,7 +13,7 @@ public class BaseTest {
     public void setupTest(String browser) {
         driverManager = new DriverManager();
         driverManager.startBrowser(browser);
-        driverManager.getDriver().get("https://juice-shop.herokuapp.com/admin#/register");
+        driverManager.getDriver().get("https://juice-shop.herokuapp.com");
     }
 
     @AfterClass(alwaysRun = true)
