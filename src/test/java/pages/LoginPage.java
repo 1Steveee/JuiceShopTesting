@@ -16,5 +16,11 @@ public class LoginPage {
         return driver.findElement(By.id("newCustomerLink"));
     }
 
+    public String notaCustomerLinkText() {
+        return notaCustomerLink().getText();
+    }
 
+    public void clickNotCustomerLink() {
+        notaCustomerLink().click();
+    }
 }

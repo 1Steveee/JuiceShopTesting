@@ -32,6 +32,7 @@ public class MainPage {
     public WebElement dismissBtn() {
         return driver.findElement(By.cssSelector("button[aria-label='Close Welcome Banner']"));
     }
+
     public void clickDismissBtn() {
         dismissBtn().click();
     }
