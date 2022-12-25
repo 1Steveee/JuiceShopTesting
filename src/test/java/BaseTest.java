@@ -3,17 +3,14 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Parameters;
 public class BaseTest {
 
-    /*
-    Add comments
-     */
-    public DriverManager driverManager;
+    protected DriverManager driverManager;
 
     @Parameters("browser")
     @BeforeClass(alwaysRun = true)
     public void setupTest(String browser) {
         driverManager = new DriverManager();
         driverManager.startBrowser(browser);
-        driverManager.getDriver().get("https://juice-shop.herokuapp.com");
+        driverManager.getDriver().get("http://localhost:3000/#/");
     }
 
     @AfterClass(alwaysRun = true)

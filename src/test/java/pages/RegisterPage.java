@@ -18,15 +18,8 @@ public class RegisterPage {
      */
     private WebDriver driver;
 
-    public RegisterPage(final WebDriver driver) {
+    public RegisterPage(WebDriver driver) {
         this.driver = driver;
-    }
-
-    public WebElement dismissBtn() {
-        return driver.findElement(By.cssSelector("button[aria-label='Close Welcome Banner']"));
-    }
-    public void clickDismissBtn() {
-        dismissBtn().click();
     }
 
     public WebElement emailField() {
@@ -42,7 +35,6 @@ public class RegisterPage {
     }
 
     public void selectSecurityQuestion() {
-
         final Actions action = new Actions(driver);
         final WebElement dropdown = driver.findElement(By.name("securityQuestion"));
         action.pause(Duration.ofSeconds(2)).click(dropdown).perform();
@@ -68,7 +60,7 @@ public class RegisterPage {
     }
 
     public String getSuccessMessage() {
-        WebElement successMessage = new WebDriverWait(driver, Duration.ofSeconds(5))
+        WebElement successMessage = new WebDriverWait(driver, Duration.ofSeconds(2))
                 .until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("simple-snack-bar > span")));
         return successMessage.getText();
     }

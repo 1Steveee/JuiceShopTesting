@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="Selenium Sample Tests ">
-    <test name = "Browser Tests">
+    <test name = "Browser Test">
         <parameter name="browser" value="chrome"/>
         <classes>
             <class name="SeleniumTest">
                 <methods>
-                    <include name="testMainPageLoginChrome"/>
+                    <include name="testUserRegistration"/>
+                    <include name="testLoginCredentials"/>
                 </methods>
             </class>
         </classes>
     </test>
-</suite> <!-- Suite -->
+</suite>
