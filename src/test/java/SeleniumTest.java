@@ -25,19 +25,19 @@ public class SeleniumTest extends BaseTest{
         this.faker = new Faker();
         this.driver = driverManager.getDriver();
         this.email = this.faker.internet().emailAddress();
-        this.password = this.faker.internet().password(6,12);
+        this.password = this.faker.internet().password(8,12);
         this.mainPage = new MainPage(this.driver);
     }
 
     @Test
     public void testUserRegistration() {
-        this.mainPage.clickDismissBtn();
-        LoginPage loginPage = this.mainPage.clickLogin();
+        String successMessage = "Registration completed successfully. You can now log in.";
         String notCustomerLinkText = "Not yet a customer?";
+
+        LoginPage loginPage = this.mainPage.clickLogin();
         assertEquals(notCustomerLinkText, loginPage.notaCustomerLinkText());
         RegisterPage registerPage = loginPage.clickNotCustomerLink();
         registerPage.login(this.email,this.password,"JaneDoe");
-        String successMessage = "Registration completed successfully. You can now log in.";
         assertEquals(successMessage, registerPage.getSuccessMessage());
     }
 

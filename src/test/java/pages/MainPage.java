@@ -3,9 +3,7 @@ package pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 
-import java.time.Duration;
 
 public class MainPage {
 
@@ -30,12 +28,24 @@ public class MainPage {
     public WebElement LogOutBtn() { return driver.findElement(By.id("navbarLogoutButton")); }
 
     public LoginPage clickLogin() {
+        boolean dismissBtnAvailable = dismissBtnDisplaying();
+        if (dismissBtnAvailable) {
+            dismissBtn().click();
+        }
         AccountBtn().click();
         LoginBtn().click();
         return new LoginPage(driver);
     }
 
-    public void clickDismissBtn() {
-        dismissBtn().click();
+    public boolean dismissBtnDisplaying() {
+        try {
+            boolean btnDisplayed = dismissBtn().isDisplayed();
+            if (btnDisplayed) {
+                return true;
+            }
+        } catch(org.openqa.selenium.NoSuchElementException e) {
+            return false;
+        }
+        return false;
     }
 }

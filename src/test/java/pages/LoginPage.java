@@ -12,8 +12,6 @@ public class LoginPage {
 
     private WebDriver driver;
 
-    private MainPage mainPage;
-
     public LoginPage(WebDriver driver) {
         this.driver = driver;
     }
@@ -33,6 +31,7 @@ public class LoginPage {
     public WebElement loginBtn() {
         return driver.findElement(By.id("loginButton"));
     }
+
     public String notaCustomerLinkText() {
         return notaCustomerLink().getText();
     }
@@ -47,7 +46,7 @@ public class LoginPage {
         emailField().sendKeys(email);
         passwordField().sendKeys(password);
         loginBtn().click();
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
         mainPage.AccountBtn().click();
         wait.until(ExpectedConditions.elementToBeClickable(mainPage.LogOutBtn()));
     }
