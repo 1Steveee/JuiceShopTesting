@@ -25,27 +25,23 @@ public class MainPage {
         return driver.findElement(By.cssSelector("button[aria-label='Close Welcome Banner']"));
     }
 
+    public WebElement meWantItLink() {
+        return driver.findElement(By.cssSelector(".cc-btn.cc-dismiss"));
+    }
+
     public WebElement LogOutBtn() { return driver.findElement(By.id("navbarLogoutButton")); }
 
     public LoginPage clickLogin() {
-        boolean dismissBtnAvailable = dismissBtnDisplaying();
-        if (dismissBtnAvailable) {
-            dismissBtn().click();
-        }
         AccountBtn().click();
         LoginBtn().click();
         return new LoginPage(driver);
     }
 
-    public boolean dismissBtnDisplaying() {
-        try {
-            boolean btnDisplayed = dismissBtn().isDisplayed();
-            if (btnDisplayed) {
-                return true;
-            }
-        } catch(org.openqa.selenium.NoSuchElementException e) {
-            return false;
-        }
-        return false;
+    public void clickMeWantItLink() {
+        meWantItLink().click();
+    }
+
+    public void clickDismissBtn() {
+        dismissBtn().click();
     }
 }

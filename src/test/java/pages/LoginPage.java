@@ -48,6 +48,6 @@ public class LoginPage {
         loginBtn().click();
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
         mainPage.AccountBtn().click();
-        wait.until(ExpectedConditions.elementToBeClickable(mainPage.LogOutBtn()));
+        wait.until(ExpectedConditions.visibilityOf(mainPage.LogOutBtn()));
     }
 }

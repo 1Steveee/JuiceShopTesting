@@ -4,13 +4,13 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import pages.LoginPage;
 import pages.MainPage;
+import pages.ProductPage;
 import pages.RegisterPage;
-
-import java.io.IOException;
+import utilities.Helper;
 
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
-import static utilities.Helper.takeScreenshot;
+
 
 public class SeleniumTest extends BaseTest{
 
@@ -47,5 +47,19 @@ public class SeleniumTest extends BaseTest{
         loginPage.loginToPage(this.email,this.password);
         assertTrue(this.mainPage.LogOutBtn().isDisplayed());
     }
+
+    @Test(dependsOnMethods = "testLoginCredentials")
+    public void testAddProductsToCart() throws InterruptedException {
+        ProductPage productPage = new ProductPage(driver);
+        productPage.addAppleJuiceToCart();
+        assertEquals(
+                productPage.getAddToCartSuccessMessageText(), "Placed Apple Juice (1000ml) into basket.");
+        productPage.addGreenSmoothieToCart();
+        assertEquals(
+                productPage.getAddToCartSuccessMessageText(), "Placed Green Smoothie into basket.");
+        assertEquals(
+                productPage.getWarningNotificationText(), "2");
+    }
+
 
 }
