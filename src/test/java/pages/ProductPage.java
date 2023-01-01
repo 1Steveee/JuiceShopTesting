@@ -48,8 +48,7 @@ public class ProductPage {
     }
 
     public void addGreenSmoothieToCart()  {
-        this.actions.pause(Duration.ofSeconds(7)).build().perform();
-        addGreenSmoothieBtn().click();
+        this.actions.pause(Duration.ofSeconds(7)).click(addGreenSmoothieBtn()).build().perform();
     }
 
     public String getAddToCartSuccessMessageText() {
