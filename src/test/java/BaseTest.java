@@ -12,7 +12,7 @@ public class BaseTest {
     public void setupTest(String browser) {
         driverManager = new DriverManager();
         driverManager.startBrowser(browser);
-        driverManager.getDriver().get("http://localhost:3000/#/");
+        driverManager.getDriver().get("http://localhost:3000");
         MainPage mainPage = new MainPage(driverManager.getDriver());
         mainPage.clickDismissBtn();
         mainPage.clickMeWantItLink();

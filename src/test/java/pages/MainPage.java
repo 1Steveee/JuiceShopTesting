@@ -25,6 +25,10 @@ public class MainPage {
         return driver.findElement(By.cssSelector("button[aria-label='Close Welcome Banner']"));
     }
 
+    public WebElement siteBasketBtn() {
+        return driver.findElement(By.cssSelector("button.mat-focus-indicator:nth-child(7)"));
+    }
+
     public WebElement meWantItLink() {
         return driver.findElement(By.cssSelector(".cc-btn.cc-dismiss"));
     }
@@ -43,5 +47,10 @@ public class MainPage {
 
     public void clickDismissBtn() {
         dismissBtn().click();
+    }
+
+    public BasketPage clickSiteBasket() {
+        siteBasketBtn().click();
+        return new BasketPage(driver);
     }
 }

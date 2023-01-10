@@ -9,6 +9,7 @@
                     <include name="testUserRegistration"/>
                     <include name="testLoginCredentials"/>
                     <include name="testAddProductsToCart"/>
+                    <include name="testProductCheckout"/>
                 </methods>
             </class>
         </classes>

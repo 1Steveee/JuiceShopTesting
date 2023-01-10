@@ -1,7 +1,6 @@
 package pages;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -37,29 +36,59 @@ public class ProductPage {
                 By.cssSelector("div > mat-grid-tile:nth-child(8) > div > mat-card > div:nth-child(2) > button"));
     }
 
-    public WebElement warningNotification() {
+    public WebElement basketCount() {
         return driver.findElement(By.cssSelector(".warn-notification"));
     }
 
     public void addAppleJuiceToCart() {
         clickOverlay();
-        this.actions
-                .pause(Duration.ofSeconds(5)).click(addAppleJuiceBtn()).build().perform();
+        waitForSuccessToDisappear();
+        addAppleJuiceBtn().click();
     }
 
     public void addGreenSmoothieToCart()  {
-        this.actions.pause(Duration.ofSeconds(7)).click(addGreenSmoothieBtn()).build().perform();
+        waitForSuccessToDisappear();
+        addGreenSmoothieBtn().click();
     }
 
     public String getAddToCartSuccessMessageText() {
         return wait.until(ExpectedConditions.visibilityOf(addToCartSuccessMessage())).getText();
     }
 
+    public String getAppleJuiceText() {
+        return driver.findElement(By.cssSelector
+                ("mat-grid-tile:nth-child(1) > div > mat-card > " +
+                        ".mat-tooltip-trigger.product > div:nth-child(2) > .item-name")).getText();
+    }
+
+    public String getGreenSmoothieText() {
+        return driver.findElement(By.cssSelector
+                ("mat-grid-tile:nth-child(8) > div > mat-card > " +
+                        ".mat-tooltip-trigger.product > div:nth-child(2) > .item-name")).getText();
+    }
+
+    public String getAppleJuicePrice() {
+        return driver.findElement(By.cssSelector
+                ("mat-grid-tile:nth-child(1) > div > mat-card > .mat-tooltip-trigger.product > " +
+                        "div:nth-child(2) > .item-price > span")).getText();
+    }
+
+    public String getGreenSmoothiePrice() {
+        return driver.findElement(By.cssSelector
+                ("mat-grid-tile:nth-child(8) > div > mat-card > .mat-tooltip-trigger.product > " +
+                        "div:nth-child(2) > .item-price > span")).getText();
+    }
+
     public void clickOverlay() {
         driver.findElement(By.cssSelector(".cdk-overlay-transparent-backdrop")).click();
     }
 
-    public String getWarningNotificationText() {
-        return warningNotification().getText();
+    public String getBasketCount() {
+        return basketCount().getText();
     }
+
+    public void waitForSuccessToDisappear() {
+        wait.until(ExpectedConditions.invisibilityOf(addToCartSuccessMessage()));
+    }
+
 }
