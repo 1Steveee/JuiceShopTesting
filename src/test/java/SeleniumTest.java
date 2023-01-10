@@ -13,9 +13,17 @@ public class SeleniumTest extends BaseTest{
     private Faker faker;
     private String email;
     private String password;
+    private String country;
+    private String name;
+    private String mobileNumber;
+    private String zipcode;
+    private String address;
+    private String city;
+    private String state;
     private WebDriver driver;
     private MainPage mainPage;
     private ProductPage productPage;
+    private SelectAddressPage selectAddressPage;
     private String appleJuiceText;
     private String greenSmoothieText;
     private String appleJuicePrice;
@@ -27,6 +35,13 @@ public class SeleniumTest extends BaseTest{
         this.driver = driverManager.getDriver();
         this.email = this.faker.internet().emailAddress();
         this.password = this.faker.internet().password(8,12);
+        this.country = this.faker.address().country();
+        this.name = this.faker.name().fullName();
+        this.mobileNumber = Integer.toString(this.faker.number().numberBetween(99900000, 99988888));
+        this.zipcode = this.faker.number().digits(6);
+        this.address = this.faker.address().streetAddress();
+        this.city = this.faker.address().city();
+        this.state = this.faker.address().state();
         this.mainPage = new MainPage(this.driver);
         this.productPage = new ProductPage(this.driver);
     }
@@ -77,6 +92,22 @@ public class SeleniumTest extends BaseTest{
         assertEquals(basketPage.getAppleJuiceQuantity(), "1");
         assertEquals(basketPage.getGreenSmoothieQuantity(), "1");
         assertEquals(basketPage.getBasketPageTotalPrice(), "Total Price: 3.98¤");
+
+        this.selectAddressPage = basketPage.clickCheckOutLink();
+    }
+
+    @Test(dependsOnMethods = "testProductCheckout")
+    public void testAddNewAddress() {
+        CreateAddressPage createAddressPage = selectAddressPage.clickAddNewAddressBtn();
+        createAddressPage.CreateNewAddress(this.country,
+                this.name,
+                this.mobileNumber,
+                this.zipcode,
+                this.address,
+                this.city,
+                this.state);
+        assertEquals(createAddressPage.getSuccessMessage(), "The address at " + this.city + " has been successfully added to your addresses.");
+
     }
 
 }

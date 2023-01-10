@@ -84,6 +84,7 @@ public class ProductPage {
     }
 
     public String getBasketCount() {
+        waitForSuccessToDisappear();
         return basketCount().getText();
     }
 
