@@ -42,12 +42,12 @@ public class ProductPage {
 
     public void addAppleJuiceToCart() {
         clickOverlay();
-        waitForSuccessToDisappear();
+        waitForSuccessMsgToDisappear();
         addAppleJuiceBtn().click();
     }
 
     public void addGreenSmoothieToCart()  {
-        waitForSuccessToDisappear();
+        waitForSuccessMsgToDisappear();
         addGreenSmoothieBtn().click();
     }
 
@@ -58,24 +58,24 @@ public class ProductPage {
     public String getAppleJuiceText() {
         return driver.findElement(By.cssSelector
                 ("mat-grid-tile:nth-child(1) > div > mat-card > " +
-                        ".mat-tooltip-trigger.product > div:nth-child(2) > .item-name")).getText();
+                        ".product > div:nth-child(2) > .item-name")).getText();
     }
 
     public String getGreenSmoothieText() {
         return driver.findElement(By.cssSelector
                 ("mat-grid-tile:nth-child(8) > div > mat-card > " +
-                        ".mat-tooltip-trigger.product > div:nth-child(2) > .item-name")).getText();
+                        ".product > div:nth-child(2) > .item-name")).getText();
     }
 
     public String getAppleJuicePrice() {
         return driver.findElement(By.cssSelector
-                ("mat-grid-tile:nth-child(1) > div > mat-card > .mat-tooltip-trigger.product > " +
+                ("mat-grid-tile:nth-child(1) > div > mat-card > .product > " +
                         "div:nth-child(2) > .item-price > span")).getText();
     }
 
     public String getGreenSmoothiePrice() {
         return driver.findElement(By.cssSelector
-                ("mat-grid-tile:nth-child(8) > div > mat-card > .mat-tooltip-trigger.product > " +
+                ("mat-grid-tile:nth-child(8) > div > mat-card > .product > " +
                         "div:nth-child(2) > .item-price > span")).getText();
     }
 
@@ -84,11 +84,11 @@ public class ProductPage {
     }
 
     public String getBasketCount() {
-        waitForSuccessToDisappear();
+        waitForSuccessMsgToDisappear();
         return basketCount().getText();
     }
 
-    public void waitForSuccessToDisappear() {
+    public void waitForSuccessMsgToDisappear() {
         wait.until(ExpectedConditions.invisibilityOf(addToCartSuccessMessage()));
     }
 
