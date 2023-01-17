@@ -1,11 +1,14 @@
 import com.github.javafaker.Faker;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import pages.*;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertTrue;
+import java.util.ArrayList;
+import java.util.Iterator;
+
+import static org.testng.AssertJUnit.*;
 
 
 public class SeleniumTest extends BaseTest{
@@ -28,6 +31,8 @@ public class SeleniumTest extends BaseTest{
     private String greenSmoothieText;
     private String appleJuicePrice;
     private String greenSmoothiePrice;
+    private final String USERNAME = "adellcomputer@gmail.com";
+    private final String TESTPASSWORD = "1234567";
 
     @BeforeClass
     public void setUpTests() {
@@ -46,7 +51,7 @@ public class SeleniumTest extends BaseTest{
         this.productPage = new ProductPage(this.driver);
     }
 
-    @Test
+    @Test(priority = 1)
     public void testUserRegistration() {
         String successMessage = "Registration completed successfully. You can now log in.";
         String notCustomerLinkText = "Not yet a customer?";
@@ -58,14 +63,15 @@ public class SeleniumTest extends BaseTest{
         assertEquals(successMessage, registerPage.getSuccessMessage());
     }
 
-    @Test
+    @Test(priority = 2)
     public void testLoginCredentials() {
         LoginPage loginPage = this.mainPage.clickLogin();
-        loginPage.loginToPage(this.email,this.password);
+        boolean isValidLogin = true;
+        loginPage.loginToPage(this.email,this.password, isValidLogin);
         assertTrue(this.mainPage.LogOutBtn().isDisplayed());
     }
 
-    @Test(dependsOnMethods = "testLoginCredentials")
+    @Test(dependsOnMethods = "testLoginCredentials", priority = 3)
     public void testAddProductsToCart()  {
         this.productPage = new ProductPage(driver);
         this.productPage.addAppleJuiceToCart();
@@ -82,7 +88,7 @@ public class SeleniumTest extends BaseTest{
                 productPage.getBasketCount(), "2");
     }
 
-    @Test(dependsOnMethods = "testAddProductsToCart")
+    @Test(dependsOnMethods = "testAddProductsToCart", priority = 4)
     public void testProductCheckout() {
         BasketPage basketPage = this.mainPage.clickSiteBasket();
         assertEquals(basketPage.getAppleJuiceText(), this.appleJuiceText);
@@ -96,7 +102,7 @@ public class SeleniumTest extends BaseTest{
         this.selectAddressPage = basketPage.clickCheckOutLink();
     }
 
-    @Test(dependsOnMethods = "testProductCheckout")
+    @Test(dependsOnMethods = "testProductCheckout", priority = 5)
     public void testAddNewAddress() {
         CreateAddressPage createAddressPage = selectAddressPage.clickAddNewAddressBtn();
         createAddressPage.CreateNewAddress(this.country,
@@ -107,6 +113,32 @@ public class SeleniumTest extends BaseTest{
                 this.city,
                 this.state);
         assertEquals(createAddressPage.getSuccessMessage(), "The address at " + this.city + " has been successfully added to your addresses.");
+        this.mainPage.LogOut();
+    }
+
+    @DataProvider
+    public Iterator<Object[]> loginData() {
+        ArrayList<Object[]> data = new ArrayList<>();
+        data.add(new Object[] {USERNAME, "testing123", false});
+        data.add(new Object[] {"testing123", TESTPASSWORD, false});
+        data.add(new Object[] {"testing1234", "testing12345", false});
+        data.add(new Object[] {USERNAME, TESTPASSWORD, true});
+
+        return data.iterator();
+    }
+
+    @Test(dataProvider = "loginData", priority = 6)
+    public void testMultipleLogins(String username, String password,Boolean isValidLogin) {
+        LoginPage loginPage = this.mainPage.clickLogin();
+        loginPage.loginToPage(username,password, isValidLogin);
+        String errorMessage = "Invalid email or password.";
+
+        if (!isValidLogin) {
+            assertEquals(loginPage.getErrorMessage(), errorMessage);
+        } else {
+            assertTrue(this.mainPage.LogOutBtn().isDisplayed());
+            this.mainPage.LogOut();
+        }
 
     }
 

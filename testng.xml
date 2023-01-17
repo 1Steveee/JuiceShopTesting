@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="Selenium Sample Tests ">
-    <test name = "Browser Test">
+    <test name = "Juice Shop Test">
         <parameter name="browser" value="chrome"/>
         <classes>
             <class name="SeleniumTest">
@@ -11,8 +11,19 @@
                     <include name="testAddProductsToCart"/>
                     <include name="testProductCheckout"/>
                     <include name="testAddNewAddress"/>
+                    <include name="testMultipleLogins"/>
                 </methods>
             </class>
         </classes>
     </test>
+<!--    <test name = "Login Test">-->
+<!--        <parameter name="browser" value="chrome"/>-->
+<!--        <classes>-->
+<!--            <class name="SeleniumTest">-->
+<!--                <methods>-->
+<!--                    <include name="testMultipleLogins"/>-->
+<!--                </methods>-->
+<!--            </class>-->
+<!--        </classes>-->
+<!--    </test>-->
 </suite>

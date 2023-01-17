@@ -1,5 +1,6 @@
 package pages;
 
+import com.github.javafaker.Bool;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -41,13 +42,30 @@ public class LoginPage {
         return new RegisterPage(driver);
     }
 
-    public void loginToPage(String email, String password) {
+    public void loginToPage(String email, String password, Boolean isValidLogin) {
         MainPage mainPage = new MainPage(driver);
-        emailField().sendKeys(email);
-        passwordField().sendKeys(password);
+        fillLoginFields(email, password);
         loginBtn().click();
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
-        mainPage.AccountBtn().click();
-        wait.until(ExpectedConditions.visibilityOf(mainPage.LogOutBtn()));
+        if (isValidLogin) {
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+            mainPage.AccountBtn().click();
+            wait.until(ExpectedConditions.visibilityOf(mainPage.LogOutBtn()));
+        }
+    }
+
+    public String getErrorMessage() {
+        return driver.findElement(By.cssSelector(".error")).getText();
+    }
+
+
+    private void fillLoginFields(String email, String password) {
+        emailField().clear();
+        emailField().sendKeys(email);
+        passwordField().clear();
+        passwordField().sendKeys(password);
+    }
+
+    public void attemptToLogin(String email, String password) {
+        fillLoginFields(email, password);
     }
 }

@@ -17,19 +17,19 @@ public class MainPage {
         return driver.findElement(By.id("navbarAccount"));
     }
 
-    public WebElement LoginBtn() {
+    private WebElement LoginBtn() {
         return driver.findElement(By.id("navbarLoginButton"));
     }
 
-    public WebElement dismissBtn() {
+    private WebElement dismissBtn() {
         return driver.findElement(By.cssSelector("button[aria-label='Close Welcome Banner']"));
     }
 
-    public WebElement siteBasketBtn() {
+    private WebElement siteBasketBtn() {
         return driver.findElement(By.cssSelector("button.mat-focus-indicator:nth-child(7)"));
     }
 
-    public WebElement meWantItLink() {
+    private WebElement meWantItLink() {
         return driver.findElement(By.cssSelector(".cc-btn.cc-dismiss"));
     }
 
@@ -52,5 +52,10 @@ public class MainPage {
     public BasketPage clickSiteBasket() {
         siteBasketBtn().click();
         return new BasketPage(driver);
+    }
+
+    public void LogOut() {
+        AccountBtn().click();
+        LogOutBtn().click();
     }
 }
