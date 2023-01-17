@@ -33,6 +33,7 @@ public class SeleniumTest extends BaseTest{
     private String greenSmoothiePrice;
     private final String USERNAME = "adellcomputer@gmail.com";
     private final String TESTPASSWORD = "1234567";
+    private final String LOGINERRORMESSAGE = "Invalid email or password.";
 
     @BeforeClass
     public void setUpTests() {
@@ -51,7 +52,7 @@ public class SeleniumTest extends BaseTest{
         this.productPage = new ProductPage(this.driver);
     }
 
-    @Test(priority = 1)
+    @Test
     public void testUserRegistration() {
         String successMessage = "Registration completed successfully. You can now log in.";
         String notCustomerLinkText = "Not yet a customer?";
@@ -63,7 +64,7 @@ public class SeleniumTest extends BaseTest{
         assertEquals(successMessage, registerPage.getSuccessMessage());
     }
 
-    @Test(priority = 2)
+    @Test
     public void testLoginCredentials() {
         LoginPage loginPage = this.mainPage.clickLogin();
         boolean isValidLogin = true;
@@ -71,7 +72,7 @@ public class SeleniumTest extends BaseTest{
         assertTrue(this.mainPage.LogOutBtn().isDisplayed());
     }
 
-    @Test(dependsOnMethods = "testLoginCredentials", priority = 3)
+    @Test(dependsOnMethods = "testLoginCredentials")
     public void testAddProductsToCart()  {
         this.productPage = new ProductPage(driver);
         this.productPage.addAppleJuiceToCart();
@@ -88,7 +89,7 @@ public class SeleniumTest extends BaseTest{
                 productPage.getBasketCount(), "2");
     }
 
-    @Test(dependsOnMethods = "testAddProductsToCart", priority = 4)
+    @Test(dependsOnMethods = "testAddProductsToCart")
     public void testProductCheckout() {
         BasketPage basketPage = this.mainPage.clickSiteBasket();
         assertEquals(basketPage.getAppleJuiceText(), this.appleJuiceText);
@@ -102,7 +103,7 @@ public class SeleniumTest extends BaseTest{
         this.selectAddressPage = basketPage.clickCheckOutLink();
     }
 
-    @Test(dependsOnMethods = "testProductCheckout", priority = 5)
+    @Test(dependsOnMethods = "testProductCheckout")
     public void testAddNewAddress() {
         CreateAddressPage createAddressPage = selectAddressPage.clickAddNewAddressBtn();
         createAddressPage.CreateNewAddress(this.country,
@@ -113,7 +114,6 @@ public class SeleniumTest extends BaseTest{
                 this.city,
                 this.state);
         assertEquals(createAddressPage.getSuccessMessage(), "The address at " + this.city + " has been successfully added to your addresses.");
-        this.mainPage.LogOut();
     }
 
     @DataProvider
@@ -127,19 +127,42 @@ public class SeleniumTest extends BaseTest{
         return data.iterator();
     }
 
-    @Test(dataProvider = "loginData", priority = 6)
+    @Test(dataProvider = "loginData")
     public void testMultipleLogins(String username, String password,Boolean isValidLogin) {
         LoginPage loginPage = this.mainPage.clickLogin();
         loginPage.loginToPage(username,password, isValidLogin);
-        String errorMessage = "Invalid email or password.";
 
         if (!isValidLogin) {
-            assertEquals(loginPage.getErrorMessage(), errorMessage);
+            assertEquals(loginPage.getErrorMessage(), LOGINERRORMESSAGE);
         } else {
             assertTrue(this.mainPage.LogOutBtn().isDisplayed());
-            this.mainPage.LogOut();
+            this.mainPage.LogOutBtn().click();
         }
 
+    }
+
+    @Test
+    public void testUserNameNotValid() {
+        LoginPage loginPage = this.mainPage.clickLogin();
+        Boolean isValidLogin = false;
+        loginPage.loginToPage("test123", TESTPASSWORD, isValidLogin);
+        assertEquals(loginPage.getErrorMessage(), LOGINERRORMESSAGE);
+    }
+
+    @Test
+    public void testPasswordNotValid() {
+        LoginPage loginPage = this.mainPage.clickLogin();
+        Boolean isValidLogin = false;
+        loginPage.loginToPage(USERNAME, "test1234", isValidLogin);
+        assertEquals(loginPage.getErrorMessage(), LOGINERRORMESSAGE);
+    }
+
+    @Test
+    public void testInvalidLogin() {
+        LoginPage loginPage = this.mainPage.clickLogin();
+        Boolean isValidLogin = false;
+        loginPage.loginToPage("USERNAME", "test1234", isValidLogin);
+        assertEquals(loginPage.getErrorMessage(), LOGINERRORMESSAGE);
     }
 
 }
