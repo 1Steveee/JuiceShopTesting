@@ -6,30 +6,18 @@
         <classes>
             <class name="SeleniumTest">
                 <methods>
-                    <include name="testMultipleLogins"/>
-                    <include name="testUserNameNotValid"/>
-                    <include name="testPasswordNotValid"/>
-                    <include name="testInvalidLogin"/>
+<!--                    <include name="testMultipleLogins"/>-->
+<!--                    <include name="testUserNameNotValid"/>-->
+<!--                    <include name="testPasswordNotValid"/>-->
+<!--                    <include name="testInvalidLogin"/>-->
                     <include name="testUserRegistration"/>
                     <include name="testLoginCredentials"/>
                     <include name="testAddProductsToCart"/>
                     <include name="testProductCheckout"/>
                     <include name="testAddNewAddress"/>
+                    <include name="testSelectDeliveryAddress"/>
                 </methods>
             </class>
         </classes>
     </test>
-<!--    <test name = "Login Test">-->
-<!--        <parameter name="browser" value="chrome"/>-->
-<!--        <classes>-->
-<!--            <class name="SeleniumTest">-->
-<!--                <methods>-->
-<!--                    <include name="testMultipleLogins"/>-->
-<!--                    <include name="testUserNameNotValid"/>-->
-<!--                    <include name="testPasswordNotValid"/>-->
-<!--                    <include name="testInvalidLogin"/>-->
-<!--                </methods>-->
-<!--            </class>-->
-<!--        </classes>-->
-<!--    </test>-->
 </suite>

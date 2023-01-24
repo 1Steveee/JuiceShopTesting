@@ -34,6 +34,7 @@ public class SeleniumTest extends BaseTest{
     private final String USERNAME = "adellcomputer@gmail.com";
     private final String TESTPASSWORD = "1234567";
     private final String LOGINERRORMESSAGE = "Invalid email or password.";
+    private String fullAddress;
 
     @BeforeClass
     public void setUpTests() {
@@ -50,6 +51,7 @@ public class SeleniumTest extends BaseTest{
         this.state = this.faker.address().state();
         this.mainPage = new MainPage(this.driver);
         this.productPage = new ProductPage(this.driver);
+        this.fullAddress = String.format("%s, %s, %s, %s", this.address, this.city, this.state, this.zipcode);
     }
 
     @Test
@@ -114,7 +116,18 @@ public class SeleniumTest extends BaseTest{
                 this.city,
                 this.state);
         assertEquals(createAddressPage.getSuccessMessage(), "The address at " + this.city + " has been successfully added to your addresses.");
+        assertEquals(this.selectAddressPage.getAddress(), this.fullAddress);
     }
+
+    @Test(dependsOnMethods =  "testAddNewAddress")
+    public void testSelectDeliveryAddress() {
+        DeliverySection deliverySection = this.selectAddressPage.selectDeliveryAddress();
+        assertEquals(deliverySection.getName(), this.name);
+        assertEquals(deliverySection.getAddress(), this.fullAddress);
+        assertEquals(deliverySection.getCountryCode(), this.country);
+        assertEquals(deliverySection.getPhoneNumber(), "Phone Number " + this.mobileNumber);
+    }
+
 
     @DataProvider
     public Iterator<Object[]> loginData() {

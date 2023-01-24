@@ -16,8 +16,31 @@ public class SelectAddressPage {
         return driver.findElement(By.cssSelector("app-address > mat-card > div > button"));
     }
 
+    private WebElement selectAddressBtn() {
+        return driver.findElement(By.cssSelector("mat-cell > mat-radio-button"));
+    }
+
+    private WebElement continueBtn() {
+        return driver.findElement(By.cssSelector("mat-card > button"));
+    }
+
+    public String getAddress() {
+        return driver.findElement(By.cssSelector("mat-row > .cdk-column-Address")).getText();
+    }
+
+
     public CreateAddressPage clickAddNewAddressBtn() {
         addNewAddressBtn().click();
         return new CreateAddressPage(driver);
     }
+
+    public DeliverySection selectDeliveryAddress() {
+        selectAddressBtn().click();
+        continueBtn().click();
+        return new DeliverySection(driver);
+    }
+
+
+
+
 }
