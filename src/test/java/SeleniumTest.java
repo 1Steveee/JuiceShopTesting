@@ -151,6 +151,7 @@ public class SeleniumTest extends BaseTest{
 
     @Test
     public void testPasswordNotValid() {
+        // refresh
         LoginPage loginPage = this.mainPage.clickLogin();
         Boolean isValidLogin = false;
         loginPage.loginToPage(USERNAME, "test1234", isValidLogin);
@@ -159,6 +160,7 @@ public class SeleniumTest extends BaseTest{
 
     @Test
     public void testInvalidLogin() {
+        // refresh
         LoginPage loginPage = this.mainPage.clickLogin();
         Boolean isValidLogin = false;
         loginPage.loginToPage("USERNAME", "test1234", isValidLogin);
