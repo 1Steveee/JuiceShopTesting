@@ -34,10 +34,10 @@ public class SelectAddressPage {
         return new CreateAddressPage(driver);
     }
 
-    public DeliverySection selectDeliveryAddress() {
+    public DeliverySectionPage selectDeliveryAddress() {
         selectAddressBtn().click();
         continueBtn().click();
-        return new DeliverySection(driver);
+        return new DeliverySectionPage(driver);
     }
 
 

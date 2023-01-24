@@ -35,6 +35,7 @@ public class SeleniumTest extends BaseTest{
     private final String TESTPASSWORD = "1234567";
     private final String LOGINERRORMESSAGE = "Invalid email or password.";
     private String fullAddress;
+    private PaymentPage paymentPage;
 
     @BeforeClass
     public void setUpTests() {
@@ -121,13 +122,19 @@ public class SeleniumTest extends BaseTest{
 
     @Test(dependsOnMethods =  "testAddNewAddress")
     public void testSelectDeliveryAddress() {
-        DeliverySection deliverySection = this.selectAddressPage.selectDeliveryAddress();
-        assertEquals(deliverySection.getName(), this.name);
-        assertEquals(deliverySection.getAddress(), this.fullAddress);
-        assertEquals(deliverySection.getCountryCode(), this.country);
-        assertEquals(deliverySection.getPhoneNumber(), "Phone Number " + this.mobileNumber);
+        DeliverySectionPage deliverySectionPage = this.selectAddressPage.selectDeliveryAddress();
+        assertEquals(deliverySectionPage.getName(), this.name);
+        assertEquals(deliverySectionPage.getAddress(), this.fullAddress);
+        assertEquals(deliverySectionPage.getCountryCode(), this.country);
+        assertEquals(deliverySectionPage.getPhoneNumber(), "Phone Number " + this.mobileNumber);
+
+        this.paymentPage = deliverySectionPage.selectDeliveryMethod();
     }
 
+    @Test(dependsOnMethods = "testSelectDeliveryAddress")
+    public void testAddPayment() {
+
+    }
 
     @DataProvider
     public Iterator<Object[]> loginData() {
@@ -179,5 +186,7 @@ public class SeleniumTest extends BaseTest{
         loginPage.loginToPage("USERNAME", "test1234", isValidLogin);
         assertEquals(loginPage.getErrorMessage(), LOGINERRORMESSAGE);
     }
+
+
 
 }
