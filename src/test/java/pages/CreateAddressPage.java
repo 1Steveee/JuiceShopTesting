@@ -72,4 +72,9 @@ public class CreateAddressPage {
     public String getSuccessMessage() {
         return successMessage().getText();
     }
+
+    public void waitForSuccessMsgToDisappear() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+        wait.until(ExpectedConditions.invisibilityOf(successMessage()));
+    }
 }

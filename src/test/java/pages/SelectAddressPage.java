@@ -35,6 +35,8 @@ public class SelectAddressPage {
     }
 
     public DeliverySectionPage selectDeliveryAddress() {
+        CreateAddressPage createAddressPage = new CreateAddressPage(driver);
+        createAddressPage.waitForSuccessMsgToDisappear();
         selectAddressBtn().click();
         continueBtn().click();
         return new DeliverySectionPage(driver);

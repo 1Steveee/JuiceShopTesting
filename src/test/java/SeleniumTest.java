@@ -1,5 +1,6 @@
 import com.github.javafaker.Faker;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.json.JsonOutput;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -31,11 +32,13 @@ public class SeleniumTest extends BaseTest{
     private String greenSmoothieText;
     private String appleJuicePrice;
     private String greenSmoothiePrice;
-    private final String USERNAME = "adellcomputer@gmail.com";
-    private final String TESTPASSWORD = "1234567";
+    private final String USERNAME = "adellcomputer781@gmail.com";
+    private final String TESTPASSWORD = System.getProperty("password");
     private final String LOGINERRORMESSAGE = "Invalid email or password.";
     private String fullAddress;
     private PaymentPage paymentPage;
+    private OrderSummaryPage orderSummaryPage;
+    private OrderConfirmationPage orderConfirmationPage;
 
     @BeforeClass
     public void setUpTests() {
@@ -53,6 +56,7 @@ public class SeleniumTest extends BaseTest{
         this.mainPage = new MainPage(this.driver);
         this.productPage = new ProductPage(this.driver);
         this.fullAddress = String.format("%s, %s, %s, %s", this.address, this.city, this.state, this.zipcode);
+        System.out.println(TESTPASSWORD);
     }
 
     @Test
@@ -109,7 +113,8 @@ public class SeleniumTest extends BaseTest{
     @Test(dependsOnMethods = "testProductCheckout")
     public void testAddNewAddress() {
         CreateAddressPage createAddressPage = selectAddressPage.clickAddNewAddressBtn();
-        createAddressPage.CreateNewAddress(this.country,
+        createAddressPage.CreateNewAddress(
+                this.country,
                 this.name,
                 this.mobileNumber,
                 this.zipcode,
@@ -133,7 +138,32 @@ public class SeleniumTest extends BaseTest{
 
     @Test(dependsOnMethods = "testSelectDeliveryAddress")
     public void testAddPayment() {
+        this.paymentPage.addNewPaymentInfo(this.name, "4111111111111111", "12", "2083");
+        assertEquals(this.paymentPage.addCardSuccessMessageText(), "Your card ending with 1111 has been saved for your convenience.");
+        this.orderSummaryPage = this.paymentPage.selectPaymentCard();
+    }
 
+    @Test(dependsOnMethods = "testAddPayment")
+    public void testOrderSummary() {
+        String address = this.address + ", " + this.city + ", " + this.state + ", " + this.zipcode;
+        assertEquals(this.orderSummaryPage.getOrderNameText(), this.name);
+        assertEquals(this.orderSummaryPage.getOrderAddressText(), address);
+        assertEquals(this.orderSummaryPage.getCountryCodeText(), this.country);
+        assertEquals(this.orderSummaryPage.getPhoneNumberText(), "Phone Number " + this.mobileNumber);
+        assertEquals(this.orderSummaryPage.getOrderPriceText(), "4.97¤");
+        this.orderConfirmationPage = this.orderSummaryPage.placeOrder();
+    }
+
+    @Test(dependsOnMethods = "testOrderSummary")
+    public void testOrderConfirmation() {
+        assertEquals(this.orderConfirmationPage.getOrderConfirmationTitleText(), "Thank you for your purchase!");
+        assertEquals(this.orderConfirmationPage.getAppleJuiceText(), "Apple Juice (1000ml)");
+        assertEquals(this.orderConfirmationPage.getGreenSmoothieText(), "Green Smoothie");
+        assertEquals(this.orderConfirmationPage.getAppleJuiceQuantity(), "1");
+        assertEquals(this.orderConfirmationPage.getGreenSmoothieQuantity(), "1");
+        assertEquals(this.orderConfirmationPage.getAppleJuicePrice(), "1.99¤");
+        assertEquals(this.orderConfirmationPage.getGreenSmoothiePrice(), "1.99¤");
+        assertEquals(this.orderConfirmationPage.getTotalPrice(), "4.97¤");
     }
 
     @DataProvider
@@ -141,6 +171,7 @@ public class SeleniumTest extends BaseTest{
         ArrayList<Object[]> data = new ArrayList<>();
         data.add(new Object[] {USERNAME, "testing123", false});
         data.add(new Object[] {"testing123", TESTPASSWORD, false});
+        System.out.println(TESTPASSWORD);
         data.add(new Object[] {"testing1234", "testing12345", false});
         data.add(new Object[] {USERNAME, TESTPASSWORD, true});
 
