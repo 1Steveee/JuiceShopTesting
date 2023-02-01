@@ -19,11 +19,8 @@ public class OrderSummaryPage {
         this.driver = driver;
     }
 
-    private WebElement getOrderPriceElement() {
-//        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-//        return wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.cssSelector(".mat-footer-cell.price"))));
-
-        return driver.findElement(By.cssSelector("mat-card > table > tr:nth-child(4) > td.mat-footer-cell.price"));
+    public String getOrderPriceText() {
+        return driver.findElement(By.cssSelector(".mat-footer-cell.price")).getText();
     }
 
     public String getOrderNameText() {
@@ -47,7 +44,4 @@ public class OrderSummaryPage {
         return new OrderConfirmationPage(driver);
     }
 
-    public String getOrderPriceText() {
-        return getOrderPriceElement().getText();
-    }
 }
